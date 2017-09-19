@@ -4,6 +4,7 @@ var router = express.Router();
 var request = require('request');
 var cheerio = require('cheerio');
 var model = require('./flipkart_db');
+var unirest = require('unirest');
 router.get('/fetch/flipkart/mobile', function(req, res) {
         url = 'https://www.flipkart.com/mobile-phones-store';
         request(url, function(err, response, html) {
@@ -61,5 +62,24 @@ router.get('/fetch/flipkart/mobile', function(req, res) {
                 res.json({ error: 0, message: "data inserted" });
             }
         })
-    })
+    }),
+    router.get('/fetch/nav/:scheme', function(req, res) {
+        var scheme = req.params.scheme
+        get_nav(res, scheme, function(err, html) {
+            if (err) {
+                res.status(400).json(err);
+            }
+        });
+    });
+
+function get_nav(res, scheme) {
+    unirest.post("https://mutualfundsnav.p.mashape.com")
+        .header("X-Mashape-Key", "I5VF8iKDRGmshCxZAHXAK3Nv3OvGp1pxlIfjsnVHwdXxoQ0Cso")
+        .header("Content-Type", "application/json")
+        .header("Accept", "application/json")
+        .send({ "scodes": [scheme] })
+        .end(function(result) {
+            res.json(result.body);
+        });
+}
 module.exports = router;
