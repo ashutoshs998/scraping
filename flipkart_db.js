@@ -12,7 +12,18 @@ var product_details = mongoose.Schema({
     collection: 'product_details',
     strict: true
 });
+var snapdeal_products = mongoose.Schema({
+    product_title: { type: String, required: true },
+    old_price: { type: String, required: true },
+    new_price: { type: String, required: true },
+    product_discount: { type: String, required: true },
+}, {
+    collection: 'snapdeal_products',
+    strict: true
+});
 var get_data = conn.model("get_data", product_details);
+var get_tshirts = conn.model("get_tshirts", snapdeal_products);
 module.exports = {
     fetch: get_data,
+    snap_tshirts: get_tshirts,
 }
