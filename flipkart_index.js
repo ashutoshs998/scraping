@@ -14,6 +14,7 @@ router.get('/fetch/flipkart/mobile', function(req, res) {
             if (!err) {
                 var $ = cheerio.load(html);
                 var product_details;
+                console.log($(".K6IBc-").length);
                 $('.K6IBc-').each(function(index, element) {
                     var pname = $(element).find(".iUmrbN").text();
                     var more_details = $(element).find(".BXlZdc").text();
@@ -30,6 +31,44 @@ router.get('/fetch/flipkart/mobile', function(req, res) {
                     })
                 });
                 res.json("data inserted");
+            }
+        })
+    }),
+    router.get('/fetch/flipkart/mobile/full', function(req, res) {
+        url = 'https://www.flipkart.com/mobile-phones-store';
+        request(url, function(err, response, html) {
+            if (err) {
+                res.status(400).json(err);
+            }
+            if (!err) {
+                var $ = cheerio.load(html);
+                $('.K6IBc-').each(function(index, element) {
+                    var mob_url = "https://www.flipkart.com" + $(this).attr("href");
+                    request(mob_url, function(err, response, html) {
+                        if (err) {
+                            res.status(400).json(err);
+                        }
+                        if (!err) {
+                            var $ = cheerio.load(html);
+                            $('.col-7-12').each(function(index, element) {
+                                var product_name = $(element).find("._3wU53n").text();
+                                var otherdetails = $(element).find("._3ULzGw").text();
+                                productpage = new model.prod_page({
+                                    product_name: product_name,
+                                    otherdetails: otherdetails,
+                                })
+                                if (product_name && otherdetails != null) {
+                                    productpage.save(function(err) {
+                                        if (err) {
+                                            res.status(400).json(err);
+                                        }
+                                    })
+                                }
+                            });
+                        }
+                    })
+                });
+                res.json({ error: 0, message: "fetched products inserted in db" });
             }
         })
     }),
@@ -67,7 +106,7 @@ router.get('/fetch/flipkart/mobile', function(req, res) {
         var scheme = req.params.scheme
         get_nav(res, scheme, function(err, html) {
             if (err) {
-                res.status(400).json(err);
+                res.json(err);
             }
         });
     });
