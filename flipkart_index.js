@@ -9,7 +9,7 @@ router.get('/fetch/flipkart/mobile', function(req, res) {
         url = 'https://www.flipkart.com/mobile-phones-store';
         request(url, function(err, response, html) {
             if (err) {
-                res.status(400).json({ error: 1, message: "error occured", error: err });
+                res.status(400).json({ error: 1, message: "error occured", data: null });
             }
             if (!err) {
                 var $ = cheerio.load(html);
@@ -26,7 +26,7 @@ router.get('/fetch/flipkart/mobile', function(req, res) {
                     })
                     product_details.save(function(err) {
                         if (err) {
-                            res.status(400).json({ error: 1, message: "error occured", error: err });
+                            res.status(400).json({ error: 1, message: "error occured", data: null });
                         }
                     })
                 });
@@ -38,7 +38,7 @@ router.get('/fetch/flipkart/mobile', function(req, res) {
         url = 'https://www.flipkart.com/mobile-phones-store';
         request(url, function(err, response, html) {
             if (err) {
-                res.status(400).json({ error: 1, message: "error occured", error: err });
+                res.status(400).json({ error: 1, message: "error occured", data: null });
             }
             if (!err) {
                 var $ = cheerio.load(html);
@@ -46,7 +46,7 @@ router.get('/fetch/flipkart/mobile', function(req, res) {
                     var mob_url = "https://www.flipkart.com" + $(this).attr("href");
                     request(mob_url, function(err, response, html) {
                         if (err) {
-                            res.status(400).json({ error: 1, message: "error occured", error: err });
+                            res.status(400).json({ error: 1, message: "error occured", data: null });
                         }
                         if (!err) {
                             var $ = cheerio.load(html);
@@ -60,7 +60,7 @@ router.get('/fetch/flipkart/mobile', function(req, res) {
                                 if (product_name && other_details != null) {
                                     product_page.save(function(err) {
                                         if (err) {
-                                            res.status(400).json({ error: 1, message: "error occured", error: err });
+                                            res.status(400).json({ error: 1, message: "error occured", data: null });
                                         }
                                     })
                                 }
@@ -76,7 +76,7 @@ router.get('/fetch/flipkart/mobile', function(req, res) {
         url = 'https://www.snapdeal.com/products/mens-tshirts-polos';
         request(url, function(err, response, html) {
             if (err) {
-                res.status(400).json({ error: 1, message: "error occured", error: err });
+                res.status(400).json({ error: 1, message: "error occured", data: null });
             }
             if (!err) {
                 var $ = cheerio.load(html);
@@ -94,7 +94,7 @@ router.get('/fetch/flipkart/mobile', function(req, res) {
                     })
                     snapdeal_tshirts.save(function(err) {
                         if (err) {
-                            res.status(400).json({ error: 1, message: "error occured", error: err });
+                            res.status(400).json({ error: 1, message: "error occured", data: null });
                         }
                     })
                 });
@@ -106,7 +106,7 @@ router.get('/fetch/flipkart/mobile', function(req, res) {
         var scheme = req.params.scheme
         get_nav(res, scheme, function(err, html) {
             if (err) {
-                res.status(400).json({ error: 1, message: "error occured", error: err });
+                res.status(400).json({ error: 1, message: "error occured", data: null });
             }
         });
     });
