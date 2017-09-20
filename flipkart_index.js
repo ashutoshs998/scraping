@@ -21,7 +21,7 @@ router.get('/fetch/flipkart/mobile', function(req, res) {
                     var current_price = $(element).find("._3o3r66").text();
                     product_details = new model.fetch({
                         name: pname,
-                        otherdetails: more_details,
+                        other_details: more_details,
                         price: current_price,
                     })
                     product_details.save(function(err) {
@@ -52,13 +52,13 @@ router.get('/fetch/flipkart/mobile', function(req, res) {
                             var $ = cheerio.load(html);
                             $('.col-7-12').each(function(index, element) {
                                 var product_name = $(element).find("._3wU53n").text();
-                                var otherdetails = $(element).find("._3ULzGw").text();
-                                productpage = new model.prod_page({
+                                var other_details = $(element).find("._3ULzGw").text();
+                                product_page = new model.prod_page({
                                     product_name: product_name,
-                                    otherdetails: otherdetails,
+                                    other_details: other_details,
                                 })
-                                if (product_name && otherdetails != null) {
-                                    productpage.save(function(err) {
+                                if (product_name && other_details != null) {
+                                    product_page.save(function(err) {
                                         if (err) {
                                             res.status(400).json(err);
                                         }
